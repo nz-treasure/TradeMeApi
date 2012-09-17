@@ -16,15 +16,15 @@ namespace TestHarness
             ProductionInstance = new AppKeys
             {
                 ScopeOfRequest = "MyTradeMeRead,MyTradeMeWrite,BiddingAndBuying",
-                ConsumerKey = "33314DD004890876B9E8F97745ACFFBA64",
-                ConsumerSecret = "FAE8CC5EAAAF95D811814384BCCD291E22"
+                ConsumerKey = "57166826D8DF45242FDA95B2680388DCF0",
+                ConsumerSecret = "013C6DE6E0B28F0CFE710033DCEB2D487A"
             };
 
             SandboxInstance = new AppKeys
             {
                 ScopeOfRequest = "MyTradeMeRead,MyTradeMeWrite,BiddingAndBuying",
-                ConsumerKey = "F6FC088C3BF318C6C4B7F4188483624DE8",
-                ConsumerSecret = "D33422336F685FF88EC4BB8C45C2BC8ED9"
+                ConsumerKey = "E17DD69CDBE40D1FA9516E8D5F9DECFFE1",
+                ConsumerSecret = "92F7AC8798B3D065959CD397065C494487"
             };
         }
 
