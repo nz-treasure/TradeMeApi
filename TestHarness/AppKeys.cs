@@ -1,6 +1,8 @@
-﻿namespace BadgerSoft.TradeMe.Api.Configuration
+﻿using BadgerSoft.TradeMe.Api.Configuration;
+
+namespace TestHarness
 {
-    public class AppKeys
+    public class AppKeys : IAppKeys
     {
         public string ScopeOfRequest { get; private set; }
         public string ConsumerKey { get; private set; }
@@ -24,6 +26,20 @@
                 ConsumerKey = "F6FC088C3BF318C6C4B7F4188483624DE8",
                 ConsumerSecret = "D33422336F685FF88EC4BB8C45C2BC8ED9"
             };
+        }
+
+        public static AppKeys Current
+        {
+            get
+            {
+                switch (Profile.ProfileEnvironment)
+                {
+                    case ProfileEnvironment.Production:
+                        return Production;
+                    default:
+                        return Sandbox;
+                }
+            }
         }
 
         public static AppKeys Production

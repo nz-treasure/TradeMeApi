@@ -13,10 +13,12 @@ namespace BadgerSoft.TradeMe.Api
     public class AuthenticatedGet<T> : Get<T>
     {
         protected readonly TradeMeToken TrademeToken;
+        protected readonly IAppKeys AppKeys;
 
-        public AuthenticatedGet(TradeMeToken accessToken)
+        public AuthenticatedGet(TradeMeToken accessToken, IAppKeys appKeys)
         {
             TrademeToken = accessToken;
+            AppKeys = appKeys;
         }
 
         protected override IConsumerRequest Request(string query)
@@ -30,13 +32,13 @@ namespace BadgerSoft.TradeMe.Api
 
             var consumerContext = new OAuthConsumerContext
             {
-                ConsumerKey = Profile.Current.AppKeys.ConsumerKey,
-                ConsumerSecret = Profile.Current.AppKeys.ConsumerSecret,
+                ConsumerKey = AppKeys.ConsumerKey,
+                ConsumerSecret = AppKeys.ConsumerSecret,
                 SignatureMethod = SignatureMethod.HmacSha1,
                 UseHeaderForOAuthParameters = true
             };
 
-            var consumerSession = new OAuthSession(consumerContext, Profile.Current.RequestTokenUrl + "?scope=" + Profile.Current.AppKeys.ScopeOfRequest, Profile.Current.AuthorizeUrl, Profile.Current.AccessUrl) { AccessToken = TrademeToken };
+            var consumerSession = new OAuthSession(consumerContext, Profile.Current.RequestTokenUrl + "?scope=" + AppKeys.ScopeOfRequest, Profile.Current.AuthorizeUrl, Profile.Current.AccessUrl) { AccessToken = TrademeToken };
 
             return consumerSession
                 .Request()

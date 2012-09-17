@@ -12,10 +12,12 @@ namespace BadgerSoft.TradeMe.Api
     public class AuthenticatedPostWithPayload<TIn, TOut>
     {
         protected readonly TradeMeToken TrademeToken;
+        protected readonly IAppKeys AppKeys;
 
-        public AuthenticatedPostWithPayload(TradeMeToken accessToken)
+        public AuthenticatedPostWithPayload(TradeMeToken accessToken, IAppKeys appKeys)
         {
             TrademeToken = accessToken;
+            AppKeys = appKeys;
         }
 
         public virtual TOut Execute(TIn payload, string query)
@@ -37,13 +39,13 @@ namespace BadgerSoft.TradeMe.Api
 
             var consumerContext = new OAuthConsumerContext
                                                        {
-                                                           ConsumerKey = Profile.Current.AppKeys.ConsumerKey,
-                                                           ConsumerSecret = Profile.Current.AppKeys.ConsumerSecret,
+                                                           ConsumerKey = AppKeys.ConsumerKey,
+                                                           ConsumerSecret = AppKeys.ConsumerSecret,
                                                            SignatureMethod = SignatureMethod.HmacSha1,
                                                            UseHeaderForOAuthParameters = true
                                                        };
 
-            var consumerSession = new TradeMeOAuthSession(consumerContext, Profile.Current.RequestTokenUrl + "?scope=" + Profile.Current.AppKeys.ScopeOfRequest, Profile.Current.AuthorizeUrl, Profile.Current.AccessUrl) { AccessToken = TrademeToken };
+            var consumerSession = new TradeMeOAuthSession(consumerContext, Profile.Current.RequestTokenUrl + "?scope=" + AppKeys.ScopeOfRequest, Profile.Current.AuthorizeUrl, Profile.Current.AccessUrl) { AccessToken = TrademeToken };
 
             return consumerSession
                 .Request()

@@ -6,7 +6,6 @@
         public string AccessUrl { get; private set; }
         public string RequestTokenUrl { get; private set; }
         public string AuthorizeUrl { get; private set; }
-        public AppKeys AppKeys { get; private set; }
 
         private static readonly Profile ProductionInstance;
         private static readonly Profile SandboxInstance;
@@ -21,7 +20,6 @@
                 AccessUrl = "https://secure.trademe.co.nz/Oauth/AccessToken",
                 RequestTokenUrl = "https://secure.trademe.co.nz/Oauth/RequestToken",
                 AuthorizeUrl = "https://secure.trademe.co.nz/Oauth/Authorize",
-                AppKeys = AppKeys.Production
             };
 
             SandboxInstance = new Profile
@@ -30,7 +28,6 @@
                 AccessUrl = "https://secure.tmsandbox.co.nz/Oauth/AccessToken",
                 RequestTokenUrl = "https://secure.tmsandbox.co.nz/Oauth/RequestToken",
                 AuthorizeUrl = "https://secure.tmsandbox.co.nz/Oauth/Authorize",
-                AppKeys = AppKeys.Sandbox
             };
         }
 

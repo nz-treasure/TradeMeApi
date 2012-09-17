@@ -47,12 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\AppKeys.cs" />
     <Compile Include="AuthenticatedPost.cs" />
     <Compile Include="AuthenticatedPostWithPayload.cs" />
     <Compile Include="AuthenticatedGet.cs" />
     <Compile Include="Authentication\BeginAuthenticationRequest.cs" />
     <Compile Include="Authentication\ConcludeAuthenticationRequest.cs" />
+    <Compile Include="Configuration\IAppKeys.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Helpers\SerializationHelper.cs" />
     <Compile Include="Helpers\StringWriterWithEncoding.cs" />
@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
