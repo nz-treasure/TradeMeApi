@@ -7,9 +7,9 @@ namespace BadgerSoft.TradeMe.Api.Authentication
 {
     public class ConcludeAuthenticationRequest
     {
-        private readonly AppKeys _appKeys;
+        private readonly IAppKeys _appKeys;
 
-        public ConcludeAuthenticationRequest(AppKeys appKeys)
+        public ConcludeAuthenticationRequest(IAppKeys appKeys)
         {
             _appKeys = appKeys;
         }

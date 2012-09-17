@@ -7,9 +7,9 @@ namespace BadgerSoft.TradeMe.Api.Authentication
 {
     public class BeginAuthenticationRequest
     {
-        private readonly AppKeys _appKeys;
+        private readonly IAppKeys _appKeys;
 
-        public BeginAuthenticationRequest(AppKeys appKeys)
+        public BeginAuthenticationRequest(IAppKeys appKeys)
         {
             _appKeys = appKeys;
         }
