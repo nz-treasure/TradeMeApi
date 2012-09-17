@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>TradeMeAPIWrapper</id>
+    <version>1.0.1</version>
+    <authors>Paul Suart</authors>
+    <owners>Paul Suart</owners>
+    <licenseUrl>http://opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>https://github.com/paulsuart/TradeMeApi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A simple C# wrapper for the trademe.co.nz REST API</description>
+    <releaseNotes>First release. Exercise caution.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>TradeMe REST</tags>
+    <dependencies>
+      <dependency id="DevDefined.OAuth" version="0.1" />
+    </dependencies>
+  </metadata>
+</package>

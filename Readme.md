@@ -7,6 +7,13 @@ Aims
 -------
 To be a lightweight, easy-to-use wrapper that simplifies the OAuth process and enables straightforward access to all TradeMe REST API functionality.
 
+Install
+------
+There's a nuget package at https://nuget.org/packages/TradeMeAPIWrapper/1.0.1
+```
+PM> Install-Package TradeMeAPIWrapper
+```
+
 Example
 --------
 		static void Main(string[] args)
