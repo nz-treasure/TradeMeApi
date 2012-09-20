@@ -21,7 +21,7 @@ namespace BadgerSoft.TradeMe.Api
             AppKeys = appKeys;
         }
 
-        protected override IConsumerRequest Request(string query)
+        protected override IConsumerRequest Request(string query, Action<string> responseBodyAction)
         {
             string url = Profile.Current.BaseUrl + query;
 
@@ -39,6 +39,8 @@ namespace BadgerSoft.TradeMe.Api
             };
 
             var consumerSession = new OAuthSession(consumerContext, Profile.Current.RequestTokenUrl + "?scope=" + AppKeys.ScopeOfRequest, Profile.Current.AuthorizeUrl, Profile.Current.AccessUrl) { AccessToken = TrademeToken };
+            if (responseBodyAction != null)
+                consumerSession.ResponseBodyAction = responseBodyAction;
 
             return consumerSession
                 .Request()

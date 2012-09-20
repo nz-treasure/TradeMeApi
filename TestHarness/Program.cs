@@ -3,31 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
-
+using AmazedSaint.Elastic.Lib;
 using BadgerSoft.TradeMe.Api;
 using BadgerSoft.TradeMe.Api.Authentication;
 using BadgerSoft.TradeMe.Api.Configuration;
 
 namespace TestHarness
 {
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Profile.ProfileEnvironment = ProfileEnvironment.Production;
+
+    //        var beginAuthenticationRequest = new BeginAuthenticationRequest(AppKeys.Current);
+    //        var preliminaryToken = beginAuthenticationRequest.GetPin();
+
+    //        Process.Start(preliminaryToken.AuthUrl.ToString());
+
+    //        var pin = Console.ReadLine();
+    //        var concludeAuthenticationRequest = new ConcludeAuthenticationRequest(AppKeys.Current);
+    //        var accessToken = concludeAuthenticationRequest.AuthenticateWithVerifier(preliminaryToken, pin);
+
+    //        var watchlist = new AuthenticatedGet<Watchlist>(accessToken, AppKeys.Current).Execute("MyTradeMe/WatchList/All.xml");
+
+    //        Console.Write(watchlist.ToString());
+    //    }
+    //}
+
     class Program
     {
         static void Main(string[] args)
         {
-            Profile.ProfileEnvironment = ProfileEnvironment.Sandbox;
+            Profile.ProfileEnvironment = ProfileEnvironment.Production;
 
-            var beginAuthenticationRequest = new BeginAuthenticationRequest(AppKeys.Current);
-            var preliminaryToken = beginAuthenticationRequest.GetPin();
+            const string tokenString = "57166826D8DF45242FDA95B2680388DCF0||||||9046078462E45A759027C120F3A55EAAF3||F3C83B0CE404F877955003C9609650236C";
+            const string sandboxTokenString = "E17DD69CDBE40D1FA9516E8D5F9DECFFE1||||||A2966615C46AA99277FDEA282B84525B23||9E16E7638CDFC10749DFFBA59890924674";
+            var accessToken = new TradeMeToken(tokenString);
 
-            Process.Start(preliminaryToken.AuthUrl.ToString());
+            dynamic watchlist = new AuthenticatedGet<Watchlist>(accessToken, AppKeys.Current).ExecuteElastic("MyTradeMe/WatchList/All.xml");
 
-            var pin = Console.ReadLine();
-            var concludeAuthenticationRequest = new ConcludeAuthenticationRequest(AppKeys.Current);
-            var accessToken = concludeAuthenticationRequest.AuthenticateWithVerifier(preliminaryToken, pin);
+            var elements = watchlist.List.Elements as IEnumerable<dynamic>;
 
-            var watchlist = new AuthenticatedGet<Watchlist>(accessToken, AppKeys.Current).Execute("MyTradeMe/WatchList/All.xml");
-
-            Console.Write(watchlist.ToString());
+            Console.Write((elements.First().ListingId.InternalValue).ToString());
+            Console.ReadKey();
         }
     }
 }
@@ -40,7 +59,7 @@ namespace TestHarness
 //var response = new AuthenticatedPost<WatchListResponse>(appKeys, accessToken).Execute("MyTradeMe/WatchList/509891773.xml");
 
 //var addComment = new ListingAddComment() { comment = "My book is great." };
-//var addCommentResponse = new AuthenticatedPostWithPayload<ListingAddComment, Question>(accessToken, AppKeys.Current).Execute(addComment, "Listings/1047708/addcomment.xml");
+//var addCommentResponse = new AuthenticatedPostWithPayload<ListingAddComment, Question>(accessToken, AppKeys.Current).Execute(addComment, "Listings/1047694/addcomment.xml");
 
 //var singleListingRequest = new Get<ListedItemDetail>();
 //var listing = singleListingRequest.Execute("Listings/509891773.xml");

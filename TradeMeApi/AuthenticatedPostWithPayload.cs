@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Text;
 using BadgerSoft.TradeMe.Api.Authentication;
 using BadgerSoft.TradeMe.Api.Configuration;
@@ -6,6 +7,7 @@ using BadgerSoft.TradeMe.Api.Helpers;
 using BadgerSoft.TradeMe.Api.OAuth;
 using DevDefined.OAuth.Consumer;
 using DevDefined.OAuth.Framework;
+using DevDefined.OAuth.Utility;
 
 namespace BadgerSoft.TradeMe.Api
 {
@@ -20,13 +22,15 @@ namespace BadgerSoft.TradeMe.Api
             AppKeys = appKeys;
         }
 
+        public string LastError { get; private set; }
+
         public virtual TOut Execute(TIn payload, string query)
         {
-            var raw = Request(payload, query).ToString();
+            var raw = Request(payload, (x) => LastError = x, query).ToString();
             return SerializationHelper.Deserialize<TOut>(raw);
         }
 
-        protected virtual IConsumerRequest Request(TIn payload, string query)
+        protected virtual IConsumerRequest Request(TIn payload, Action<string> responseBodyAction, string query)
         {
             string url = Profile.Current.BaseUrl + query;
 
@@ -46,6 +50,8 @@ namespace BadgerSoft.TradeMe.Api
                                                        };
 
             var consumerSession = new TradeMeOAuthSession(consumerContext, Profile.Current.RequestTokenUrl + "?scope=" + AppKeys.ScopeOfRequest, Profile.Current.AuthorizeUrl, Profile.Current.AccessUrl) { AccessToken = TrademeToken };
+            if (responseBodyAction != null)
+                consumerSession.ResponseBodyAction = responseBodyAction;
 
             return consumerSession
                 .Request()

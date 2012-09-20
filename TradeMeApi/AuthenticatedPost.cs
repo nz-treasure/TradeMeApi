@@ -19,13 +19,15 @@ namespace BadgerSoft.TradeMe.Api
             AppKeys = appKeys;
         }
 
+        public string LastError { get; private set; }
+
         public virtual T Execute(string query)
         {
-            var raw = Request(query).ToString();
+            var raw = Request(query, (x) => LastError = x).ToString();
             return SerializationHelper.Deserialize<T>(raw);
         }
 
-        protected IConsumerRequest Request(string query)
+        protected IConsumerRequest Request(string query, Action<string> responseBodyAction)
         {
             string url = Profile.Current.BaseUrl + query;
 
@@ -43,6 +45,8 @@ namespace BadgerSoft.TradeMe.Api
                                       };
 
             var consumerSession = new TradeMeOAuthSession(consumerContext, Profile.Current.RequestTokenUrl + "?scope=" + AppKeys.ScopeOfRequest, Profile.Current.AuthorizeUrl, Profile.Current.AccessUrl) { AccessToken = TrademeToken };
+            if (responseBodyAction != null)
+                consumerSession.ResponseBodyAction = responseBodyAction;
 
             var consumerRequest = consumerSession
                 .Request()
@@ -51,6 +55,7 @@ namespace BadgerSoft.TradeMe.Api
                 .SignWithToken(TrademeToken);
 
             var tradeMeConsumerRequest = consumerRequest as TradeMeConsumerRequest;
+            
             if (tradeMeConsumerRequest != null)
             {
                 tradeMeConsumerRequest.ContentLength = 0;
